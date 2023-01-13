@@ -11672,9 +11672,9 @@ def credit_notess(request):
     t_id = request.session['t_id']
 
     cmp1 = Companies.objects.get(id=t_id)
-
+    ldg=tally_ledger.objects.filter(company=cmp1)
     item = stock_itemcreation.objects.all() 
-    context = {'cmp1': cmp1,'item':item} 
+    context = {'cmp1': cmp1,'item':item,'ldg':ldg} 
     return render(request,'credit_note.html',context)
 
 
@@ -11756,6 +11756,144 @@ def create_credit(request):
             return redirect('credit_notess')
         return redirect('credit_notess')
     return redirect('/') 
+
+def crt_ledg(request):
+    return render (request,'ledger_crd.html') 
+
+def create_ledger_crd(request):
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+        tally = Companies.objects.filter(id=t_id)
+        if request.method=='POST':
+            nm=request.POST.get('name')
+            als=request.POST.get('alias')
+            under=request.POST.get('under')
+            mname=request.POST.get('mailingname')
+            adr=request.POST.get('address')
+            st=request.POST.get('state')
+            cntry=request.POST.get('country')
+            pin=request.POST.get('pincode')
+            pno=request.POST.get('pan_no')
+            bdetls=request.POST.get('bank_details')
+            rtype=request.POST.get('registration_type')
+            gst_uin=request.POST.get('gst_uin')
+            opnbn=request.POST.get('opening_blnc')
+            cd=request.POST.get('opening_blnc_type')
+            spdl=request.POST.get('set_odl')
+            achnm=request.POST.get('ac_holder_nm')
+            acno=request.POST.get('acc_no')
+            ifsc=request.POST.get('ifsc_code')
+            scode=request.POST.get('swift_code')
+            bn=request.POST.get('bank_name')
+            brnch=request.POST.get('branch')
+            sacbk=request.POST.get('SA_cheque_bk')
+            ecp=request.POST.get('Echeque_p')
+            sacpc=request.POST.get('SA_chequeP_con')
+
+            typofled=request.POST.get('type_of_ledger')
+            rometh=request.POST.get('rounding_method')
+            rolmt=request.POST.get('rounding_limit')
+
+            typdutytax=request.POST.get('type_duty_tax')
+            taxtyp=request.POST.get('tax_type')
+            valtype=request.POST.get('valuation_type')
+            rateperu=request.POST.get('rate_per_unit')
+            percalc=request.POST.get('percentage_of_calcution')
+            rondmethod=request.POST.get('rond_method')
+            roimlit=request.POST.get('rond_limit')
+
+            gstapplicbl=request.POST.get('gst_applicable')
+            sagatdet=request.POST.get('setalter_gstdetails')
+            typsupply=request.POST.get('type_of_supply')
+            asseval=request.POST.get('assessable_value')
+            appropto=request.POST.get('appropriate_to')
+            methcalcu=request.POST.get('method_of_calculation')
+
+            balbillbybill=request.POST.get('balance_billbybill')
+            credperiod=request.POST.get('credit_period')
+            creditdaysvouch=request.POST.get('creditdays_voucher')
+            
+            ldr=tally_ledger(name=nm,alias=als,under=under,mname=mname,address=adr,state=st,country=cntry,
+                            pincode=pin,pan_no=pno,bank_details=bdetls,registration_type=rtype,gst_uin=gst_uin,
+                            opening_blnc=opnbn,set_odl=spdl,ac_holder_nm=achnm,acc_no=acno,ifsc_code=ifsc,swift_code=scode,
+                            bank_name=bn,branch=brnch,SA_cheque_bk=sacbk,Echeque_p=ecp,SA_chequeP_con=sacpc,
+                            type_of_ledger=typofled,rounding_method=rometh,rounding_limit=rolmt,type_duty_tax=typdutytax,tax_type=taxtyp,
+                            valuation_type=valtype,rate_per_unit=rateperu,percentage_of_calcution=percalc,rond_method=rondmethod,rond_limit=roimlit,
+                            gst_applicable=gstapplicbl,setalter_gstdetails=sagatdet,type_of_supply=typsupply,assessable_value=asseval,
+                            appropriate_to=appropto,method_of_calculation=methcalcu,balance_billbybill=balbillbybill,credit_period=credperiod,
+                            creditdays_voucher=creditdaysvouch,opening_blnc_type=cd,company_id=t_id)
+            
+            ldr.save()
+            if under =="Bank Accounts":
+                group_under = Account_Books_Group_under.objects.all()
+                ad =""
+                for i in group_under:
+                    if i.group_under_Name == under:
+
+                        ad = under
+
+                        gup=Account_Books_Group_under.objects.get(group_under_Name=under)
+
+                        account_book_ledger = Account_Books_Ledger()
+                        account_book_ledger.ledger_name = nm
+                        account_book_ledger.group_under = gup
+                        account_book_ledger.ledger_opening_bal = opnbn
+                        account_book_ledger.ledger_opening_bal_type = type
+                        account_book_ledger.save()
+                
+                
+                if ad != under:
+                    account_book_group_under = Account_Books_Group_under()
+            
+                    account_book_group_under.group_under_Name =under
+                    account_book_group_under.save()
+
+                    account_book_ledger = Account_Books_Ledger()
+                    account_book_ledger.ledger_name = nm
+                    gu =Account_Books_Group_under.objects.get(id=account_book_group_under.id)
+                    account_book_ledger.group_under = gu
+                    account_book_ledger.ledger_opening_bal = opnbn
+                    account_book_ledger.ledger_opening_bal_type = type
+                    account_book_ledger.save()
+
+
+            if under =="Cash in Hand":
+                group_under = Account_Books_Group_under.objects.all()
+                ad =""
+                for i in group_under:
+                    if i.group_under_Name == under:
+
+                        ad = under
+
+                        gup=Account_Books_Group_under.objects.get(group_under_Name=under)
+
+                        account_book_ledger = Account_Books_Ledger()
+                        account_book_ledger.ledger_name = nm
+                        account_book_ledger.group_under = gup
+                        account_book_ledger.ledger_opening_bal = opnbn
+                        account_book_ledger.ledger_opening_bal_type = type
+                        account_book_ledger.save()
+                
+                
+                if ad != under:
+                    account_book_group_under = Account_Books_Group_under()
+            
+                    account_book_group_under.group_under_Name =under
+                    account_book_group_under.save()
+
+                    account_book_ledger = Account_Books_Ledger()
+                    account_book_ledger.ledger_name = nm
+                    gu =Account_Books_Group_under.objects.get(id=account_book_group_under.id)
+                    account_book_ledger.group_under = gu
+                    account_book_ledger.ledger_opening_bal = opnbn
+                    account_book_ledger.ledger_opening_bal_type = type
+                    account_book_ledger.save()
+            # return render(request,'ledgers.html',{'tally':tally})
+            return redirect("credit_notess")
+    return redirect('/')
     
 
     

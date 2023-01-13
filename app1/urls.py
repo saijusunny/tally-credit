@@ -787,7 +787,8 @@ urlpatterns = [
     #credit section
     path('credit_notess/',views.credit_notess,name='credit_notess'),
     path('itemdata/',views.itemdata,name='itemdata'),
-    path('create_credit/',views.create_credit,name='create_credit'),     
-
+    path('create_credit/',views.create_credit,name='create_credit'), 
+    path('crt_ledg/',views.crt_ledg,name='crt_ledg'),
+    path('create_ledger_crd/',views.create_ledger_crd,name='create_ledger_crd'),
 
      ]
