@@ -43,7 +43,7 @@
 
                                 </div>
                                 <div class="col-sm-6">
-                                    <a href="" data-dismiss="modal" data-target="#crtt" data-toggle="modal"><input type="text" class="input" name="customer"></a><br><br>
+                                    <a href="" data-dismiss="modal" data-target="#crtt" data-toggle="modal"><input type="text" class="input" name="customer" id = "customer"></a><br><br>
                                     <input type="text" class="input"   ><br><br>
                                     <input type="text" class="input" name="ledger_account"   ><br><br>
                                     <input type="text" class="input"   ><br><br>
@@ -189,11 +189,14 @@
                     
                     <a href="{% url 'crt_ledg'%}"><p style="text-align: right;">Create</p></a>
                     <hr>
-                    {% for p in ldg%}
-                    <a href="" data-dismiss="modal" data-target="#view" data-toggle="modal"><p>
-                        {{p.name}}
-                    </p></a>
-                    {% endfor %}
+                    <ul>
+                        {% for p in ldg%}
+                        <li id={{forloop.counter}}><a href="" data-dismiss="modal" data-target="#view" data-toggle="modal"><p  class="name" value="{{p.name}}"  onclick="addledger('{{p.name}}')"id="namess{{forloop.counter}}" name="namess">
+                            {{p.name}}
+                        </p></a>
+                        {% endfor %}</li>
+                    </ul>
+                    
 
                 </div>
             </div>
@@ -931,5 +934,25 @@
         
     });
     });
+</script>
+
+<script>
+    function addledger(el){
+        var ldg=el
+        
+        
+        document.getElementById("customer").value=ldg
+        
+    }
+
+    // $(document).on('click','.name',function(){
+    //         var ldg = $(this).attr("id");
+    //         console.log(ldg)
+    //         var vals=document.getElementById(""+ldg).value
+            
+    //         document.getElementById("customer").value=vals
+            
+    //     });
+
 </script>
 {% endblock %}

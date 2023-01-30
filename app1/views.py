@@ -11668,16 +11668,6 @@ def cur_balance(request):
 # def credit_note(request):
 #     return render(request,'credit_note.html')
 
-def credit_notess(request):
-    t_id = request.session['t_id']
-
-    cmp1 = Companies.objects.get(id=t_id)
-    ldg=tally_ledger.objects.filter(company=cmp1)
-    item = stock_itemcreation.objects.all() 
-    context = {'cmp1': cmp1,'item':item,'ldg':ldg} 
-    return render(request,'credit_note.html',context)
-
-
 def itemdata(request):
     print("welcome")
     if 't_id' in request.session:
@@ -11759,6 +11749,18 @@ def create_credit(request):
 
 def crt_ledg(request):
     return render (request,'ledger_crd.html') 
+
+def credit_notess(request):
+    t_id = request.session['t_id']
+
+    cmp1 = Companies.objects.get(id=t_id)
+    ldg=tally_ledger.objects.filter(company=cmp1)
+    item = stock_itemcreation.objects.all() 
+    context = {'cmp1': cmp1,'item':item,'ldg':ldg} 
+    return render(request,'credit_notedebit.html',context)
+
+
+
 
 def create_ledger_crd(request):
     if 't_id' in request.session:
