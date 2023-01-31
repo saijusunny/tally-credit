@@ -219,18 +219,20 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <label for="">Tracking No(s)</label>
-                            <input type="text">
+                            <input type="text" name="track_no" id="track_no">
                         </div>
+                        
                         <div class="col-sm-8">
                             <div class="col-sm-12">
                                 
-                                    <label for="">Dispatch Doc No &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; :&nbsp;</label><input type="text" ><br>
-                                    <label for="">Dispatched Through&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:&nbsp;</label><input type="text"><br>
-                                    <label for="">Destination&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :&nbsp;</label><input type="text"><br>
-                                    <label for="">Carrier Name/Agent &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text"><br>
-                                    <label for="">Bill of Lading/LR-RR No :&nbsp;</label><input type="text"><br>
-                                    <label for="">Motor Vehicle No. &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text"><br>
-                                    <label for="">Date&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:</label> <input type="date"><br> 
+                                    <label for="">Dispatch Doc No &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; :&nbsp;</label><input type="text" name="dis_doc_no" id="dis_doc_no"><br>
+                                    <label for="">Dispatched Through&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:&nbsp;</label><input type="text" name="dis_through" id="dis_through"><br>
+                                    <label for="">Destination&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :&nbsp;</label><input type="text" name="dis_desti" id="dis_desti"><br>
+                                    <label for="">Carrier Name/Agent &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="car_nm_ag" id="car_nm_ag"><br>
+                                    <label for="">Bill of Lading/LR-RR No :&nbsp;</label><input type="text" name="bil_lading" id="bil_lading"><br>
+                                    <label for="">Motor Vehicle No. &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="mvd_no" id="mvd_no"><br>
+                                    <label for="">Date&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:</label> <input type="date" name="date_dis" id=""><br> 
+                                     
 
                                     
                             </div>
@@ -248,15 +250,15 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-sm-6">
-                            <label for="">Invoice No.&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text"><br> 
+                            <label for="">Invoice No.&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="inv_no" id="inv_no"><br> 
                         </div>
                         <div class="col-sm-6">
-                            <label for="">Date&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="date"><br> 
+                            <label for="">Date&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="date" name="inv_date" id="inv_date"><br> 
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-sm-12 ">
-                            <a href="" data-dismiss="modal" data-target="#view_acc" data-toggle="modal"><input type="submit" value="Next" style="margin-left: 41%;"></a>
+                            <a href="" data-dismiss="modal" data-target="#view_acc" data-toggle="modal"><input type="submit" value="Next" onclick = recdet() style="margin-left: 41%;"></a>
                         </div>
                     </div>
          
@@ -265,6 +267,42 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="party">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #1c3143; color: white">
+            <div class="modal-header">
+                <h5 class="m-3">List Of Ledger Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-3 m-3">
+                    
+                    <a href="{% url 'crt_ledg'%}"><p style="text-align: right;">Create</p></a>
+                    <p style="text-align: right;" onclick=newpartynm()>New Party</p>
+                    <hr>
+                    <ul>
+                        <li ><a href="" data-dismiss="modal" data-target="#view_acc" data-toggle="modal" id="list_prt"></a></li>
+                        {% for p in ldg%}
+                        
+                        <li id={{forloop.counter}}><p  class="name" value="{{p.name}}"  onclick="addledger('{{p.name}}')"id="namess{{forloop.counter}}" name="namess">
+                            {{p.name}}
+                        </p>
+                        {% endfor %}</li>
+                    </ul>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+                    
 
 <div class="modal fade" id="view_acc">
     <div class="modal-dialog modal-lg">
@@ -285,7 +323,7 @@
                                 {% csrf_token %}
                                 <label for="">Bayer(Boll To) :&nbsp;</label><br> <br> 
                                 <label for="">Mailing Name :&nbsp;</label><br> <br> 
-                                <label for="">Address :&nbsp;</label><br> <br> 
+                                <label for="">Address :&nbsp;</label><br> <br> <br>
                                 <label for="">State :&nbsp;</label><br> <br> 
                                 <label for="">Country :&nbsp;</label><br> <br> 
                                 <label for="">GST Registration Type :&nbsp;</label><br> <br> 
@@ -295,13 +333,57 @@
                         </div>
                         <div class="col-sm-6">
                             
-                            <input type="text"><br> <br> 
-                            <input type="text"><br><br> 
-                            <input type="text"><br><br> 
-                            <input type="text"><br><br> 
-                            <input type="text"><br><br> 
-                            <input type="text"><br><br> 
-                            <input type="text"><br><br> 
+                            <a href="" data-dismiss="modal" data-target="#party" data-toggle="modal"><input type="text" name="name" id="name"></a><br> <br> 
+                            <input type="text" name="mname" id="mname"><br><br> 
+                            <textarea name="address" id="address" cols="30" rows="3"></textarea>
+                            
+                            <!-- <input type="text" name="state" id="state"><br><br>  -->
+                            <select type="text" name="state" id="state">
+                                <option  selected> </option>
+                                <option value="Andaman and Nicobar Islads">Andaman and Nicobar Islads</option>
+                                <option value="Andhra Predhesh">Andhra Predhesh</option>
+                                <option value="Arunachal Predesh">Arunachal Predesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                <option value="Damn anad Diu">Damn anad Diu</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Himachal Predesh">Himachal Predesh</option>
+                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Ladakh">Ladakh</option>
+                                <option value="Lakshadweep">Lakshadweep</option>
+                                <option value="Madhya Predesh">Madhya Predesh</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Puducherry">Puducherry</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Uttar Predesh">Uttar Predesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Other Territory">Other Territory</option>
+                            </select><br><br> 
+                            <input type="text" name="country" id="country"><br><br> 
+                            
+
+                            <input type="text" name="reg_type" id="reg_type"><br><br> 
+                            <input type="text" name="gst_uin" id="gst_uin"><br><br> 
            
                             
 
@@ -314,10 +396,51 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <label for="">Bayer(Boll To) :&nbsp;</label><br> 
+                                    <label for="">Place Of Supply :&nbsp;</label><br> 
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text"><br>
+                                    <!-- <input type="text" name="pl_suply" id="pl_suply"><br> -->
+                                    <select type="text" name="pl_suply" id="pl_suply">
+                                        <option  selected> </option>
+                                        <option value="Andaman and Nicobar Islads">Andaman and Nicobar Islads</option>
+                                        <option value="Andhra Predhesh">Andhra Predhesh</option>
+                                        <option value="Arunachal Predesh">Arunachal Predesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chandigarh">Chandigarh</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                        <option value="Damn anad Diu">Damn anad Diu</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Himachal Predesh">Himachal Predesh</option>
+                                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                        <option value="Jharkhand">Jharkhand</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Ladakh">Ladakh</option>
+                                        <option value="Lakshadweep">Lakshadweep</option>
+                                        <option value="Madhya Predesh">Madhya Predesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Odisha">Odisha</option>
+                                        <option value="Puducherry">Puducherry</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tripura">Tripura</option>
+                                        <option value="Uttar Predesh">Uttar Predesh</option>
+                                        <option value="Uttarakhand">Uttarakhand</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option value="Other Territory">Other Territory</option>
+                                    </select>
                                 </div>
                             </div>
                             
@@ -937,6 +1060,7 @@
 </script>
 
 <script>
+    // for add name to landing page
     function addledger(el){
         var ldg=el
         
@@ -944,15 +1068,86 @@
         document.getElementById("customer").value=ldg
         
     }
+    // for save recipt details
 
-    // $(document).on('click','.name',function(){
-    //         var ldg = $(this).attr("id");
-    //         console.log(ldg)
-    //         var vals=document.getElementById(""+ldg).value
-            
-    //         document.getElementById("customer").value=vals
-            
-    //     });
+    function recdet(){
+
+        track_no = $('#track_no').val();
+        dis_doc_no = $('#dis_doc_no').val();
+        dis_through = $('#dis_through').val();
+        car_nm_ag = $('#car_nm_ag').val();
+        bil_lading = $('#bil_lading').val();
+        mvd_no = $('#mvd_no').val();
+        date_dis = $('#date_dis').val();
+        inv_no = $('#inv_no').val();
+        inv_date = $('#inv_date').val();
+        dis_desti = $('#dis_desti').val();
+        customer = $('#customer').val();
+       
+  
+        $.ajax({
+            type: "GET",
+            url: "{% url 'savrecdet' %}",
+            data: {
+                track_no : track_no,
+                dis_doc_no : dis_doc_no,
+                dis_through : dis_through,
+                car_nm_ag : car_nm_ag,
+                bil_lading : bil_lading,
+                mvd_no : mvd_no,
+                date_dis : date_dis,
+                inv_no : inv_no,
+                inv_date : inv_date,
+                dis_desti : dis_desti,
+                customer:customer,
+            },
+            success:function(response){
+                    console.log(response)
+                    name = response.name
+                    mname = response.mname
+                    address = response.address
+                    state = response.state
+                    country = response.country
+                    reg_type = response.reg_type
+                    gst_uin = response.gst_uin
+                    
+                    document.getElementById('name').value = name;
+                    document.getElementById('mname').value = mname; 
+                    document.getElementById('address').value = address;
+                    document.getElementById('state').value = state;
+                    document.getElementById('country').value = country;
+                    document.getElementById('reg_type').value = reg_type ;
+                    document.getElementById('gst_uin').value = gst_uin;
+                    document.getElementById('pl_suply').value = state; 
+                    var invdrop=document.getElementById('state');
+                    var option=document.createElement("option");
+                    option.text=state;
+                    invdrop.add(option,invdrop[0]);
+
+                    var invdrops=document.getElementById('pl_suply');
+                    var options=document.createElement("option");
+                    option.text=state;
+                    invdrops.add(option,invdrops[0]);
+                   
+
+            }});
+    
+
+    }
+
+    function newpartynm(){
+        let person = prompt("Please enter a party name");
+        let text;
+        if (person == null || person == "") {
+        text = "";
+        } else {
+            document.getElementById('name').value = person;
+            document.getElementById('mname').value = person;
+            document.getElementById('customer').value = person;
+            document.getElementById('list_prt').innerHTML = person;
+
+        }
+    }
 
 </script>
 {% endblock %}

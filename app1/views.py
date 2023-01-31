@@ -11668,29 +11668,81 @@ def cur_balance(request):
 # def credit_note(request):
 #     return render(request,'credit_note.html')
 
+
+
+def credit_notess(request):
+    print("hasghdhgsdhas")
+    t_id = request.session['t_id']
+
+    cmp1 = Companies.objects.get(id=t_id)
+    ldg=tally_ledger.objects.filter(company=cmp1)
+    item = stock_itemcreation.objects.all() 
+    context = {'cmp1': cmp1,'item':item,'ldg':ldg} 
+    return render(request,'credit_note.html',context)
+
 def itemdata(request):
-    print("welcome")
+
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
             uid = request.session['t_id']
         else:
             return redirect('/')
         cmp1 = Companies.objects.get(id=request.session['t_id'])
-        print(cmp1.state)
+  
         id = request.GET.get('id')
-        print("asdsadas")
-        print(id)
+      
         
         
         item = stock_itemcreation.objects.get(name=id)
-        print(item)
-        # hsn = item.hsn
+ 
+
         qty = item.quantity
         price = item.rate
-        # gst = item.intra_st
-        # sgst = item.inter_st
-        # places=cmp1.state
         return JsonResponse({"status":" not",'qty':qty,'price':price})
+    return redirect('/')
+
+def savrecdet(request):
+
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            uid = request.session['t_id']
+        else:
+            return redirect('/')
+        cmp1 = Companies.objects.get(id=request.session['t_id'])
+        try:
+            track_no= request.GET.get('track_no')
+            dis_doc_no= request.GET.get('dis_doc_no')
+            dis_through= request.GET.get('dis_through')
+            dis_desti= request.GET.get('dis_desti')
+            car_nm_ag= request.GET.get('car_nm_ag')
+            bil_lading= request.GET.get('bil_lading')
+            mvd_no= request.GET.get('mvd_no')
+            date_dis= request.GET.get('date_dis')
+            inv_no = request.GET.get('inv_no')
+            inv_date = request.GET.get('inv_date')
+        except:
+            pass
+        customer = request.GET.get('customer')
+
+      
+     
+        items=tally_ledger.objects.get(company=cmp1,name=customer)
+        print(items)
+     
+        name = items.name
+        mname = items.mname
+        address = items.address
+        state = items.state
+        country = items.country
+        reg_type = items.registration_type
+        gst_uin = items.gst_uin
+        cr_bal = items.gst_uin
+        print("sadasdadas")
+        print(gst_uin)
+        
+        
+
+        return JsonResponse({"status":" not","name":name,"mname":mname,"address":address,"state":state,"country":country,"reg_type":reg_type,"gst_uin":gst_uin,})
     return redirect('/')
 
 def create_credit(request):
@@ -11749,15 +11801,6 @@ def create_credit(request):
 
 def crt_ledg(request):
     return render (request,'ledger_crd.html') 
-
-def credit_notess(request):
-    t_id = request.session['t_id']
-
-    cmp1 = Companies.objects.get(id=t_id)
-    ldg=tally_ledger.objects.filter(company=cmp1)
-    item = stock_itemcreation.objects.all() 
-    context = {'cmp1': cmp1,'item':item,'ldg':ldg} 
-    return render(request,'credit_notedebit.html',context)
 
 
 

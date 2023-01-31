@@ -790,5 +790,6 @@ urlpatterns = [
     path('create_credit/',views.create_credit,name='create_credit'), 
     path('crt_ledg/',views.crt_ledg,name='crt_ledg'),
     path('create_ledger_crd/',views.create_ledger_crd,name='create_ledger_crd'),
+    path('savrecdet/',views.savrecdet,name='savrecdet'),
 
      ]
