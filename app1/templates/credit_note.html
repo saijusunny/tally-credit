@@ -18,7 +18,7 @@
                 <div class="col-sm-4"> Accounting Voucher Creation</div>
                 <div class="col-sm-4" style="text-align: center;">{{cmp1.name}}</div>
             </div>
-            <form style="margin-top: 30px;" method="post" action="{%url 'create_credit'%}">
+            <form style="margin-top: 30px;" method="post" action ="{%url 'create_credit'%}">
                 {% csrf_token %}
                 <div class="ledger">
 
@@ -44,9 +44,9 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <a href="" data-dismiss="modal" data-target="#crtt" data-toggle="modal"><input type="text" class="input" name="customer" id = "customer"></a><br><br>
-                                    <input type="text" class="input"   ><br><br>
-                                    <input type="text" class="input" name="ledger_account"   ><br><br>
-                                    <input type="text" class="input"   ><br><br>
+                                    <input type="text" class="input" name="cust_bal" id="cust_bal"><br><br>
+                                    <a href="" data-dismiss="modal" data-target="#sl_acc" data-toggle="modal"><input type="text" class="input" name="ledger_account"  id="ledger_account" ></a><br><br>
+                                    <input type="text" class="input" name="ld_bal" id="ld_bal"   ><br><br>
                      
                                 </div>
                             </div>
@@ -192,6 +192,35 @@
                     <ul>
                         {% for p in ldg%}
                         <li id={{forloop.counter}}><a href="" data-dismiss="modal" data-target="#view" data-toggle="modal"><p  class="name" value="{{p.name}}"  onclick="addledger('{{p.name}}')"id="namess{{forloop.counter}}" name="namess">
+                            {{p.name}}
+                        </p></a>
+                        {% endfor %}</li>
+                    </ul>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sl_acc">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #1c3143; color: white">
+            <div class="modal-header">
+                <h5 class="m-3">List Of Ledger Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-3 m-3">
+                    
+                    <a href="{% url 'crt_sl_ledg'%}"><p style="text-align: right;">Create</p></a>
+                    <hr>
+                    <ul>
+                        {% for p in ldg1%}
+                        <li id={{forloop.counter}}><a onclick="addsl('{{p.name}}')" data-dismiss="modal" aria-label="Close"><p  class="name" value="{{p.name}}"  id="sl-name{{forloop.counter}}" name="sl-name">
                             {{p.name}}
                         </p></a>
                         {% endfor %}</li>
@@ -1068,6 +1097,31 @@
         document.getElementById("customer").value=ldg
         
     }
+
+    function addsl(el){
+        var ldg=el
+        
+        
+        document.getElementById("ledger_account").value=ldg
+        ledger_account = $('#ledger_account').val();
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_sl_det' %}",
+            data: {
+                ledger_account : ledger_account,
+                
+            },
+            success:function(response){
+                    console.log(response)
+                    bal_amount = response.bal_amount
+                    document.getElementById('ld_bal').value = bal_amount;
+                    
+                   
+
+            }});
+
+        
+    }
     // for save recipt details
 
     function recdet(){
@@ -1109,7 +1163,12 @@
                     state = response.state
                     country = response.country
                     reg_type = response.reg_type
-                    gst_uin = response.gst_uin
+                    gst_uin = response.gst_uin 
+                    bal_amount = response.bal_amount 
+
+
+
+                    document.getElementById('cust_bal').value = bal_amount;
                     
                     document.getElementById('name').value = name;
                     document.getElementById('mname').value = mname; 

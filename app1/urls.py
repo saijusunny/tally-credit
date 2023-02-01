@@ -791,5 +791,8 @@ urlpatterns = [
     path('crt_ledg/',views.crt_ledg,name='crt_ledg'),
     path('create_ledger_crd/',views.create_ledger_crd,name='create_ledger_crd'),
     path('savrecdet/',views.savrecdet,name='savrecdet'),
+    path('crt_sl_ledg/',views.crt_sl_ledg,name='crt_sl_ledg'),
+    path('create_sl_ledger/',views.create_sl_ledger,name='create_sl_ledger'),
+    path('get_sl_det/',views.get_sl_det,name='get_sl_det'),
 
      ]
