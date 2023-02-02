@@ -11678,7 +11678,8 @@ def credit_notess(request):
     ldg=tally_ledger.objects.filter(company=cmp1)
     ldg1=tally_ledger.objects.filter(company=cmp1,under="Sales_Account")
     item = stock_itemcreation.objects.all() 
-    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1} 
+    godown = CreateGodown.objects.filter(comp=cmp1) 
+    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown} 
     return render(request,'credit_note.html',context)
 
 def itemdata(request):
@@ -12130,3 +12131,84 @@ def get_sl_det(request):
 
         return JsonResponse({"status":" not","bal_amount":bal_amount})
     return redirect('/')
+
+def create_items_crd(request):
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+        tally = Companies.objects.filter(id=t_id)
+        # grp=stockgroupcreation.objects.all()
+        grp=CreateStockGrp.objects.filter(comp=t_id)
+        unt=unit_compound.objects.all()
+        u=unit_simple.objects.all()
+	    # com=Companies.objects.get(id=pk)  
+        return render(request,'item_crt_crd.html',{'grp':grp,'unt':unt,'u':u,'tally':tally})
+    return redirect('/')
+
+
+def stock_items_creation_crd(request):
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+        tally = Companies.objects.filter(id=t_id)
+        grp=CreateStockGrp.objects.all()
+        unt=unit_compound.objects.all()
+        u=unit_simple.objects.all()
+        if request.method=='POST':
+            nm=request.POST['name']
+            alias=request.POST['alias']
+            under=request.POST['under']
+            units=request.POST['units']
+            batches=request.POST['batches']
+            trackdate=request.POST['trackdate']
+            expirydate=request.POST['expirydate']
+            gst_applicable=request.POST['gst_applicable']
+            set_alter=request.POST['set_alter']
+            typ_sply=request.POST['typ_sply']
+            rate_of_duty=request.POST['rate_of_duty']
+            quantity=request.POST['quantity']
+            rate=request.POST['rate']
+            per=request.POST['per']
+            value=request.POST['value']
+            
+            crt=stock_itemcreation(name=nm,alias=alias,under_id=under,units=units,batches=batches,trackdate=trackdate,expirydate=expirydate,typ_sply=typ_sply,
+            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)
+            crt.save()
+            return redirect('credit_notess')
+        return redirect('credit_notess')
+    return redirect('/')
+
+def godown_creation_crd(request):
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+        tally = Companies.objects.filter(id=t_id)
+        gd=CreateGodown.objects.all()
+	    # com=Companies.objects.get(id=pk) 
+        return render(request,'goddown_crd.html',{'gd':gd,'tally':tally})
+    return redirect('/')
+
+def godown_crd(request):
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+            company=Companies.objects.get(id=t_id)
+        else:
+            return redirect('/')
+        tally = Companies.objects.filter(id=t_id)
+        gd=CreateGodown.objects.all()
+        if request.method=='POST':
+            name=request.POST['name']
+            alias=request.POST['alias']
+            under_name=request.POST['under_name']
+            gdcrt=CreateGodown(name=name,alias=alias,under_name=under_name,comp=company)
+            gdcrt.save()
+            return redirect('credit_notess')
+        return redirect('credit_notess')
+    return redirect('/')  

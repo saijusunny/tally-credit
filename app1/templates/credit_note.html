@@ -85,15 +85,9 @@
                                             <td>1</td>
                                             <td style="width: 20%;">
                                                 <div class="d-flex">
-                                                    <select name='items[]' id="product" class="form-control">
-                                                        <option selected>Choose..</option>
-                                                        {% for i in item %}
-                                                            <option value="{{ i.name }}">
-                                                                {{ i.name }}
-                                                            </option>
-                                                        {% endfor %}
-                                                    </select>
-                                                    <a class="btn btn-outline-secondary ml-1" role="button" data-target="#newitem" data-toggle="modal">+</a> 
+                                                    <a href="" data-dismiss="modal" data-target="#item_sl" data-toggle="modal"><input type="text" name='items[]' id="product" class="form-control" placeholder="Item"></a>
+                                                    
+                                                    
                                                 </div>
                                             </td>
                                             
@@ -295,7 +289,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> item_sl
 
 <div class="modal fade" id="party">
     <div class="modal-dialog modal-lg">
@@ -321,6 +315,128 @@
                         </p>
                         {% endfor %}</li>
                     </ul>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="item_sl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #1c3143; color: white">
+            <div class="modal-header">
+                <h5 class="m-3">List Of Stock Items</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-3 m-3">
+                    
+                    <a href="{% url 'create_items_crd'%}"><p style="text-align: right;">Create</p></a>
+                    
+                    <hr>
+                    <ul>
+                        
+                        {% for p in item%}
+                        
+                        <li id={{forloop.counter}}><a href="" data-dismiss="modal" data-target="#item_sltd" data-toggle="modal"><p  class="name" value="{{p.name}}"  onclick="additem('{{p.name}}')"id="item_nm{{forloop.counter}}" name="item_nm">
+                            {{p.name}}
+                        </p></a></li>
+                        {% endfor %}
+                    </ul>
+                        
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="item_sltd">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #1c3143; color: white">
+            <div class="modal-header">
+                <h5 class="m-3" id="itm_nm"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-3 m-3">
+                    
+                    
+                    <hr>
+                    <div class="col-md-12 mt-3">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tab_godown">
+                                <thead>
+                                <tr>
+                                    
+                                    <th class="text-center">Godown</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Rate per</th>
+                                    <th class="text-center">Amount</th>
+                                    
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr> 
+                                        <td> <a href="" data-dismiss="modal" data-target="#gd_sl" data-toggle="modal"><input type="text" id="gd_name" name="gd_name" class="form-control"></a></td>
+                                        <td> <input type="text"class="form-control quantity" onchange="amount_calcu()" id="quantity"  name="quantity"></td>
+                                        <td> <input type="text"class="form-control rates" onchange="amount_calcu()" name="rates" id="rates"></td>
+                                        <td> <input type="text"class="form-control amount"  name="amount" id="amount"></td>
+                                    </tr>
+ 
+                                    <tr> 
+                                        <td> </td>
+                                        <td> <input type="text"class="form-control qty_tot" name="qty_tot" id="qty_tot"></td>
+                                        <td></td>
+                                        <td> <input type="text"class="form-control tot_amount" id="tot_amount" name="tot_amount"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>    
+                        
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="gd_sl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #1c3143; color: white">
+            <div class="modal-header">
+                <h5 class="m-3">List Of Godown</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-3 m-3">
+                    
+                    <a href="{% url 'godown_creation_crd'%}"><p style="text-align: right;">Create</p></a>
+                    
+                    <hr>
+                    <ul>
+                        
+                        {% for p in godown%}
+                        
+                        <li id={{forloop.counter}}><a href="" data-dismiss="modal" data-target="#item_sltd" data-toggle="modal"><p  class="name" value="{{p.name}}"  onclick="addgd('{{p.name}}')"id="item_nm{{forloop.counter}}" name="item_nm">
+                            {{p.name}}
+                        </p></a></li>
+                        {% endfor %}
+                    </ul>
+                        
                     
 
                 </div>
@@ -567,15 +683,9 @@
                             <td>${roinc+1}</td>
                             <td style="width: 20%;">
                                 <div class="d-flex">
-                                    <select name='items[]' id="product${roinc}" class="form-control">
-                                        <option value=" " selected>Select Item</option>
-                                        {% for i in item %}
-                                            <option value="{{ i.name }}">{{ i.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <a href="#">
-                                        <button type="button" class="btn btn-outline-secondary ml-1" data-target="#newitem" data-toggle="modal">+</button>
-                                    </a>                    
+                                    <a href="" data-dismiss="modal" data-target="#item_sl" data-toggle="modal"><input type="text" name='items[]' id="product${roinc}" class="form-control" placeholder='Item'></a>
+                                    
+                                                        
                                 </div>
                             </td>
                                             
@@ -605,486 +715,6 @@
             calc()
         });
         
-        
-       
-     
-        $(document).on('click','#product',function(){
-            
-            select = $('#product').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                
-                },
-                
-                
-                success:function(response){
-                        console.log(response)
-                    
-                        data2 = response.qty
-                        data3 = response.price
-                      
-                        document.getElementById('qtyspan').innerHTML = data2;
-                        document.getElementById('unit1').value = data3;
-                        
-                    }
-                
-            });
-        });     
-            
-        $(document).on('click','#product1',function(){
-            select = $('#product1').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                        console.log(response)
-                        
-                        data2 = response.qty
-                        data3 = response.price
-               
- 
-                        document.getElementById('qtyspan1').innerHTML = data2;
-                            
-                        document.getElementById('unit11').value = data3
-                        
-                    }
-                });
-            
-        });
-        $(document).on('click','#product2',function(){
-            select = $('#product2').val();
-            
-            $.ajax({
-                
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                
-                success:function(response){
-                    
-                    console.log(response)
-                    
-                    data1 = response.qty
-                    data2 = response.price
-             
-                    
-                  
-                    document.getElementById('qtyspan2').innerHTML = data1;
-                    document.getElementById('unit12').value = data2            
-                    
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product3',function(){
-            select = $('#product3').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data1 = response.qty
-                    data2 = response.price
-
-   
-                    document.getElementById('qtyspan3').innerHTML = data1;
-                    document.getElementById('unit13').value = data2
-                    
-                }
-            });
-        });
-        
-        $(document).on('click','#product4',function(){
-            select = $('#product4').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                    
-              
-                    document.getElementById('qtyspan4').innerHTML = data2;
-                    document.getElementById('unit14').value = data3
-                     
-                }
-            });          
-        });
-
-        $(document).on('click','#product5',function(){
-            select = $('#product5').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                    
-              
-                    document.getElementById('qtyspan5').innerHTML = data2;
-                    document.getElementById('unit15').value = data3
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product6',function(){
-            select = $('#product6').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                    
-     
-                    document.getElementById('qtyspan6').innerHTML = data2;
-                    document.getElementById('unit16').value = data3
-                 
-                }
-            });
-        });
-
-        $(document).on('click','#product7',function(){
-            select = $('#product7').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                      
-                    data2 = response.qty
-                    data3 = response.price
-                    
-            
-                    document.getElementById('qtyspan7').innerHTML = data2;
-                    document.getElementById('unit17').value = data3
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product8',function(){
-            select = $('#product8').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                            
-                         
-                    document.getElementById('qtyspan8').innerHTML = data2;
-                    document.getElementById('unit18').value = data3
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product9',function(){
-            select = $('#product9').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                            console.log(response)
-                            
-                            
-                            data2 = response.qty
-                            data3 = response.price
-                                   
-         
-                    document.getElementById('qtyspan9').innerHTML = data2;
-                    document.getElementById('unit19').value = data3        
-                   
-                }
-            });
-        });
-
-        $(document).on('click','#product10',function(){
-            select = $('#product10').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                           
-                
-                    document.getElementById('qtyspan10').innerHTML = data2;
-                    document.getElementById('unit110').value = data3        
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product11',function(){
-            select = $('#product11').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                                          
-          
-                    document.getElementById('qtyspan11').innerHTML = data2;
-                    document.getElementById('unit111').value = data3        
-                          
-                }
-            });
-        });
-
-        $(document).on('click','#product12',function(){
-            select = $('#product12').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                    
-             
-                    document.getElementById('qtyspan12').innerHTML = data2;
-                    document.getElementById('unit112').value = data3
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product13',function(){
-            select = $('#product13').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                           
-                   
-                    document.getElementById('qtyspan13').innerHTML = data2;
-                    document.getElementById('unit113').value = data3        
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product14',function(){
-            select = $('#product14').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                           
-                   
-                    document.getElementById('qtyspan14').innerHTML = data2;
-                    document.getElementById('unit114').value = data3        
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product15',function(){
-            select = $('#product15').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-   
-                    data2 = response.qty
-                    data3 = response.price
-                    
-               
-                  
-                    document.getElementById('qtyspan15').innerHTML = data2;
-                    document.getElementById('unit115').value = data3
-                 
-                }
-            });
-        });
-
-        $(document).on('click','#product16',function(){
-            select = $('#product16').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                            
-        
-                    document.getElementById('qtyspan16').innerHTML = data2;
-                    document.getElementById('unit116').value = data3        
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product17',function(){
-            select = $('#product17').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                    
-
-                    document.getElementById('qtyspan17').innerHTML = data2;
-                    document.getElementById('unit117').value = data3
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product18',function(){
-            select = $('#product18').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                            
-                 
-                    document.getElementById('qtyspan18').innerHTML = data2;
-                    document.getElementById('unit118').value = data3        
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product19',function(){
-            select = $('#product19').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                        console.log(response)
-                        
-                        data2 = response.qty
-                        data3 = response.price
-                      
-                 
-                        document.getElementById('qtyspan19').innerHTML = data2;
-                        document.getElementById('unit119').value = data3        
-                    
-                }
-            });
-        });
-
-        $(document).on('click','#product120',function(){
-            select = $('#product120').val();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'itemdata' %}",
-                data: {
-                id: select
-                },
-                success:function(response){
-                    console.log(response)
-                    
-                    data2 = response.qty
-                    data3 = response.price
-                    
-                    
-                    document.getElementById('qtyspan20').innerHTML = data2;
-                    document.getElementById('unit120').value = data3
-                    
-                }
-            });
-        
-        
-    });
     });
 </script>
 
@@ -1122,6 +752,78 @@
 
         
     }
+
+    // #add add_item_row
+    function additem(itm){
+        // var product=document.getElementById("product")
+        // var product1=document.getElementById("product1")
+        // if (product==document.activeElement){
+        //     console.log("haiii")
+        //     document.getElementById("product").value=itm 
+        // }else if(product1==document.activeElement){
+        //     document.getElementById("product1").value=itm 
+        // }
+        document.getElementById("product").value=itm 
+        document.getElementById("itm_nm").innerHTML="Item Allocations For : " +itm
+
+        
+    }
+
+    // add godown to gd modal
+    function addgd(gd_nm){
+        document.getElementById("gd_name").value=gd_nm 
+    }
+
+    // godown Calculation
+    amount //   tot_amount
+    function amount_calcu() {
+        $('#tab_godown tbody tr').each(function () {
+            var html = $(this).html();
+            if (html != '') {
+                var qty = $(this).find('.quantity').val();
+                var price = $(this).find('.rates').val(); 
+                
+                // $(this).find('.qty_tot').val(qty);
+                if (qty!=null, price!=null){
+                    $(this).find('.amount').val(qty * price);
+
+                    document.getElementById("tot_amount").value=qty * price
+                    document.getElementById("qty_tot").value=qty
+                    document.getElementById("qty1").value=qty 
+                    document.getElementById("unit1").value=price
+                    document.getElementById("total1").value=qty* price
+
+                    calc() 
+                    var inpusts=document.getElementById("tot_amount").value
+                    
+                    if (inpusts!=0){
+                        document.getElementById("tot_amount").focus();
+                        var input = document.getElementById("tot_amount");
+                        input.addEventListener("keypress", function(event) {
+                            if (event.key === "Enter") {
+
+                                $('#item_sltd').modal('hide');
+                            }else{
+
+                            }
+                        });
+
+                    }
+                    
+
+
+                }else{
+                   
+                }
+
+                
+                
+                // $(this).find('.tot_amount').val(qty * price);
+                
+            }
+        })
+    
+        };
     // for save recipt details
 
     function recdet(){

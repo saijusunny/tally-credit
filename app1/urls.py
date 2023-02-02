@@ -794,5 +794,9 @@ urlpatterns = [
     path('crt_sl_ledg/',views.crt_sl_ledg,name='crt_sl_ledg'),
     path('create_sl_ledger/',views.create_sl_ledger,name='create_sl_ledger'),
     path('get_sl_det/',views.get_sl_det,name='get_sl_det'),
+    path('create_items_crd/',views.create_items_crd,name='create_items_crd'),
+    path('stock_items_creation_crd/',views.stock_items_creation_crd,name='stock_items_creation_crd'),
+    path('godown_creation_crd/',views.godown_creation_crd,name='godown_creation_crd'),
+    path('godown_crd/',views.godown_crd,name='godown_crd'),
 
      ]
