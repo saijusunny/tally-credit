@@ -11764,7 +11764,7 @@ def create_credit(request):
             print("haii")
             print(request.POST['customer'])
             pdebit = credit_note(customer = request.POST['customer'],
-                                    creditdate=request.POST['date'],
+                                    creditdate=date.today(),
                                     ledger_acc=request.POST['ledger_account'],
 
                                     subtotal=request.POST['subtotal'],
@@ -11784,22 +11784,22 @@ def create_credit(request):
             pdeb=credit_note.objects.get(screditid=pdebit.screditid)
 
             if len(items)==len(quantity)==len(price)==len(total) and items and quantity and price and total:
-                print(items)
+               
                 mapped=zip(items,quantity,price,total)
                 mapped=list(mapped)
                 print(mapped)
                 for ele in mapped:
                     porderAdd,created = credit_item.objects.get_or_create(items = ele[0],quantity=ele[1],price=ele[2],total=ele[3],scredit=pdeb)
 
-                    itemqty = stock_itemcreation.objects.get(name=ele[0])
-                    if itemqty.quantity != 0:
-                        temp=0
-                        print(ele[1])
-                        temp = itemqty.quantity 
+                    # itemqty = stock_itemcreation.objects.get(name=ele[0])
+                    # if itemqty.quantity != 0:
+                    #     temp=0
+                    #     print(ele[1])
+                    #     temp = itemqty.quantity 
 
-                        temp = int(temp)+int(ele[1])
-                        itemqty.quantity =temp
-                        itemqty.save()
+                    #     temp = int(temp)+int(ele[1])
+                    #     itemqty.quantity =temp
+                    #     itemqty.save()
     
             return redirect('credit_notess')
         return redirect('credit_notess')
@@ -12212,3 +12212,4 @@ def godown_crd(request):
             return redirect('credit_notess')
         return redirect('credit_notess')
     return redirect('/')  
+
