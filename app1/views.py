@@ -11,6 +11,7 @@ from django.shortcuts import render,redirect
 from .models import *
 from errno import ETIME
 from datetime import date
+from django.db.models import Avg,Max,Min,Sum
 from re import S
 from re import A, S
 from this import s
@@ -11671,15 +11672,35 @@ def cur_balance(request):
 
 
 def credit_notess(request):
-    print("hasghdhgsdhas")
+    
     t_id = request.session['t_id']
 
     cmp1 = Companies.objects.get(id=t_id)
+    # credit_num=credit_note.objects.get(comp=cmp1).
+    icrd=credit_note.objects.filter(comp=cmp1).aggregate(Max('credit_no')).get('credit_no__max')
+    crd_num=icrd+1
+
+    current_year = date.today().year
+        
+    next_year = current_year+1
+    previous_year = current_year-1
+    financial_year="01-Apr-"+str(previous_year)
+
+    now = datetime.now()
+    dt_nm=now.strftime("%A")
+
+    setup=Voucher.objects.get(company=cmp1)
+    print(setup.voucherNumber)
+    automatic="Automatic "
+    automaticmo="Automatic(Manual Override)" 
+    multiuser="Multiuser"
+    manual="Manual"
+    
     ldg=tally_ledger.objects.filter(company=cmp1)
     ldg1=tally_ledger.objects.filter(company=cmp1,under="Sales_Account")
     item = stock_itemcreation.objects.all() 
     godown = CreateGodown.objects.filter(comp=cmp1) 
-    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown} 
+    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown,"crd_num":crd_num,"financial_year":financial_year,"dt_nm":dt_nm, "setup":setup,"automatic":automatic,"automaticmo":automaticmo,"multiuser":multiuser,"manual":manual} 
     return render(request,'credit_note.html',context)
 
 def itemdata(request):
@@ -11762,12 +11783,12 @@ def create_credit(request):
         if request.method == 'POST':
             debit_no = '1000'
             print("haii")
-            print(request.POST['customer'])
+            print(request.POST['customer']) 
             pdebit = credit_note(customer = request.POST['customer'],
                                     creditdate=date.today(),
                                     ledger_acc=request.POST['ledger_account'],
-
                                     subtotal=request.POST['subtotal'],
+                                    note=request.POST['Note'],
                                     quantity=request.POST['quantity'],
                                     grandtotal=request.POST['grandtotal'],
                                     comp=cmp1

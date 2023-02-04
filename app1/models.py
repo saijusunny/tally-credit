@@ -1727,6 +1727,7 @@ class credit_note(models.Model):
     customer = models.CharField(max_length=100,null=True)
     creditdate = models.DateField(null=True)
     ledger_acc=models.CharField(max_length=100,null=True)
+    note=models.CharField(max_length=255,null=True)
     subtotal = models.CharField(max_length=100,null=True)
     quantity= models.IntegerField(null=True)
     grandtotal = models.CharField(max_length=100,null=True)

@@ -23,12 +23,15 @@
                 <div class="ledger">
 
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h6><span>Credit Note No. : </span></h6>
+                        <div class="col-sm-6"> 
+                            <h6><span>Credit Note No. : <input type="text" name="crd_no" value="{{crd_num}}" disabled></span></h6>
+                            
+
+                            
                         </div>
                         <div class="col-sm-6" style="text-align: right;">
-                            <h6>1-Apr-22</h6>
-                            <h6>Friday</h6>
+                            <h6>{{financial_year}}</h6>
+                            <h6>{{dt_nm}}</h6>
                         </div>
                     </div>
                     <div class="row">
@@ -123,6 +126,7 @@
                         </div>
                     </div>
                     <div class="row">
+                        
                         <div class="col-md-7"></div>
                         <div class="col-md-5 table-responsive-md mt-3" id="tab_logic_total" style="background-color:rgba(0,0,0,.4); border: 1px solid rgba(128, 128, 128, 0.6);">
                             <div class="p-3">
@@ -155,7 +159,14 @@
                             </div>
                             
                         </div>
+                        <div class="col-md-6">
+
+                            <textarea class="form-control"  id="" name="Note" placeholder="Note" style="height: 190px; margin-top: -39%;"></textarea>
+
+                           
+                        </div>
                     </div>
+
                     <div class="row mt-4 mb-4">
                         <div class="col-md-9"></div>
                         <div class="col-md-3 mt-3 mb-4">
@@ -675,58 +686,6 @@
         
     </script>
 
-
-<script>
-    $(document).ready(function(){
-        
-        var roinc = 0
-        $('#addrow').click(function(){
-            roinc++
-            $('#items-table-body').append(
-                `
-                <tr id='addr0${roinc}'>
-                            <td>${roinc+1}</td>
-                            <td style="width: 20%;">
-                                <div class="d-flex">
-                                    <a href="" data-dismiss="modal" data-target="#item_sl" data-toggle="modal" onclick=rowid(${roinc})><input type="text" name='items[]' id="product${roinc}" class="form-control" placeholder='Item'></a>
-                                    
-                                                        
-                                </div>
-                            </td>
-                                            
-                            <td><input type="number" name='quantity[]' onchange="qtychange1(this)" placeholder='Enter Qty' id="qty1${roinc}"  class="form-control qty" step=0 min=0>
-                            
-                            </td>                
-                            <td>
-                                <input type="number" name='price[]' id="unit1${roinc}" placeholder='Enter Unit Price' class="form-control price" step="0.00" min="0">
-                            </td>                
-                                                            
-                            
-                            <td>
-                                <input type="number" name='total[]' id="total1${roinc}" placeholder=0 class="form-control total" value=0 step="any">
-                            </td>    
-                              
-                            
-                            
-                            
-                            
-                            <td><button type="button" id="${roinc}" class="btn btn-danger remove_row">-</button></td>
-                            
-                        </tr>
-                                                
-                `
-            );
-        });
-
-        $(document).on('click','.remove_row',function(){
-            var row_id = $(this).attr("id");
-            $('#addr0'+row_id+'').remove();
-            calc()
-        });
-        
-    });
-</script>
-
 <script>
     // for add name to landing page
     function addledger(el){
@@ -1141,4 +1100,57 @@
     }
 
 </script>
+
+<script>
+    $(document).ready(function(){
+        
+        var roinc = 0
+        $('#addrow').click(function(){
+            roinc++
+            $('#items-table-body').append(
+                `
+                <tr id='addr0${roinc}'>
+                            <td>${roinc+1}</td>
+                            <td style="width: 20%;">
+                                <div class="d-flex">
+                                    <a href="" data-dismiss="modal" data-target="#item_sl" data-toggle="modal" onclick=rowid(${roinc})><input type="text" name='items[]' id="product${roinc}" class="form-control" placeholder='Item'></a>
+                                    
+                                                        
+                                </div>
+                            </td>
+                                            
+                            <td><input type="number" name='quantity[]' onchange="qtychange1(this)" placeholder='Enter Qty' id="qty1${roinc}"  class="form-control qty" step=0 min=0>
+                            
+                            </td>                
+                            <td>
+                                <input type="number" name='price[]' id="unit1${roinc}" placeholder='Enter Unit Price' class="form-control price" step="0.00" min="0">
+                            </td>                
+                                                            
+                            
+                            <td>
+                                <input type="number" name='total[]' id="total1${roinc}" placeholder=0 class="form-control total" value=0 step="any">
+                            </td>    
+                              
+                            
+                            
+                            
+                            
+                            <td><button type="button" id="${roinc}" class="btn btn-danger remove_row">-</button></td>
+                            
+                        </tr>
+                                                
+                `
+            );
+        });
+
+        $(document).on('click','.remove_row',function(){
+            var row_id = $(this).attr("id");
+            $('#addr0'+row_id+'').remove();
+            calc()
+        });
+        
+    });
+</script>
+
+
 {% endblock %}
