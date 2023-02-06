@@ -11690,17 +11690,14 @@ def credit_notess(request):
     dt_nm=now.strftime("%A")
 
     setup=Voucher.objects.get(company=cmp1)
-    print(setup.voucherNumber)
-    automatic="Automatic "
-    automaticmo="Automatic(Manual Override)" 
-    multiuser="Multiuser"
-    manual="Manual"
     
-    ldg=tally_ledger.objects.filter(company=cmp1)
+    
+    ldg=tally_ledger.objects.filter(company=cmp1,under__in=["Bank_Accounts" , "Cash_in_Hand" , "Sundry_Debtors" , "Sundry_Creditors" , "Branch_Divisions"])
+    
     ldg1=tally_ledger.objects.filter(company=cmp1,under="Sales_Account")
     item = stock_itemcreation.objects.all() 
     godown = CreateGodown.objects.filter(comp=cmp1) 
-    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown,"crd_num":crd_num,"financial_year":financial_year,"dt_nm":dt_nm, "setup":setup,"automatic":automatic,"automaticmo":automaticmo,"multiuser":multiuser,"manual":manual} 
+    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown,"crd_num":crd_num,"financial_year":financial_year,"dt_nm":dt_nm, "setup":setup,} 
     return render(request,'credit_note.html',context)
 
 def itemdata(request):
@@ -11781,21 +11778,53 @@ def create_credit(request):
             return redirect('/')
         cmp1 = Companies.objects.get(id=request.session['t_id'])
         if request.method == 'POST':
-            debit_no = '1000'
-            print("haii")
+            # debit_no = '1'
+            # print("haii")
             print(request.POST['customer']) 
+            try:
+                notes=request.POST['Note']
+            except:
+                notes=''
             pdebit = credit_note(customer = request.POST['customer'],
                                     creditdate=date.today(),
                                     ledger_acc=request.POST['ledger_account'],
                                     subtotal=request.POST['subtotal'],
-                                    note=request.POST['Note'],
+                                    note=notes,
                                     quantity=request.POST['quantity'],
                                     grandtotal=request.POST['grandtotal'],
                                     comp=cmp1
                                 )
             pdebit.save()
-            pdebit.credit_no = int(pdebit.credit_no) + pdebit.screditid
+            pdebit.credit_no = pdebit.screditid
             pdebit.save()
+
+            ldg1=tally_ledger.objects.get(company=cmp1,name=pdebit.customer)
+            cr_bal=float(ldg1.opening_blnc)+float(pdebit.grandtotal)
+            dr_bal=float(pdebit.grandtotal)-float(ldg1.opening_blnc)
+            if ldg1.opening_blnc_type=="Cr":
+                ldg1.opening_blnc=cr_bal
+                print(ldg1.opening_blnc)
+                print(pdebit.grandtotal)
+                
+            else:
+                ldg1.opening_blnc=dr_bal
+                print(dr_bal)
+                print(pdebit.grandtotal)
+                if float(pdebit.grandtotal)>float(dr_bal):
+                    ldg1.opening_blnc_type="Dr"
+                else:
+                    ldg1.opening_blnc_type="Cr"
+             
+                
+
+            ldg1.save()
+            
+
+            
+
+            ldg=tally_ledger.objects.get(company=cmp1,name=pdebit.ledger_acc)
+            ldg.opening_blnc=float(ldg.opening_blnc)+float(pdebit.grandtotal)
+            ldg.save()
 
             items = request.POST.getlist("items[]")
             quantity = request.POST.getlist("quantity[]")
@@ -11823,6 +11852,7 @@ def create_credit(request):
                     #     itemqty.save()
     
             return redirect('credit_notess')
+        
         return redirect('credit_notess')
     return redirect('/') 
 
@@ -12151,6 +12181,28 @@ def get_sl_det(request):
         
 
         return JsonResponse({"status":" not","bal_amount":bal_amount})
+    return redirect('/')
+
+def itm_amount(request):
+
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            uid = request.session['t_id']
+        else:
+            return redirect('/')
+        cmp1 = Companies.objects.get(id=request.session['t_id'])
+        
+        itms = request.GET.get('itms')
+
+      
+     
+        items=stock_itemcreation.objects.get(name=itms)
+       
+
+        amount = items.rate
+        
+        
+        return JsonResponse({"status":" not","amount":amount})
     return redirect('/')
 
 def create_items_crd(request):

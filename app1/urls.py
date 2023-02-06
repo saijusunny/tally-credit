@@ -797,6 +797,7 @@ urlpatterns = [
     path('create_items_crd/',views.create_items_crd,name='create_items_crd'),
     path('stock_items_creation_crd/',views.stock_items_creation_crd,name='stock_items_creation_crd'),
     path('godown_creation_crd/',views.godown_creation_crd,name='godown_creation_crd'),
-    path('godown_crd/',views.godown_crd,name='godown_crd'),
+    path('godown_crd/',views.godown_crd,name='godown_crd'), 
+    path('itm_amount/',views.itm_amount,name='itm_amount'),
 
      ]
