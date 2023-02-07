@@ -11678,7 +11678,10 @@ def credit_notess(request):
     cmp1 = Companies.objects.get(id=t_id)
     # credit_num=credit_note.objects.get(comp=cmp1).
     icrd=credit_note.objects.filter(comp=cmp1).aggregate(Max('credit_no')).get('credit_no__max')
-    crd_num=icrd+1
+    if icrd ==None:
+        crd_num=1
+    else:
+        crd_num=icrd+1
 
     current_year = date.today().year
         
@@ -11697,7 +11700,7 @@ def credit_notess(request):
     ldg1=tally_ledger.objects.filter(company=cmp1,under="Sales_Account")
     item = stock_itemcreation.objects.all() 
     godown = CreateGodown.objects.filter(comp=cmp1) 
-    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown,"crd_num":crd_num,"financial_year":financial_year,"dt_nm":dt_nm, "setup":setup,} 
+    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown,"crd_num":crd_num,"financial_year":financial_year,"dt_nm":dt_nm, "setup":setup,'now':now} 
     return render(request,'credit_note.html',context)
 
 def itemdata(request):
@@ -11721,14 +11724,21 @@ def itemdata(request):
         return JsonResponse({"status":" not",'qty':qty,'price':price})
     return redirect('/')
 
+
+
 def savrecdet(request):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
             uid = request.session['t_id']
         else:
-            return redirect('/')
+            return redirect('/') 
         cmp1 = Companies.objects.get(id=request.session['t_id'])
+        idss = credit_note.objects.all().last()
+        try:
+            crd_num= int(idss.screditid)+1
+        except:
+            pass
         try:
             track_no= request.GET.get('track_no')
             dis_doc_no= request.GET.get('dis_doc_no')
@@ -11740,14 +11750,82 @@ def savrecdet(request):
             date_dis= request.GET.get('date_dis')
             inv_no = request.GET.get('inv_no')
             inv_date = request.GET.get('inv_date')
-        except:
-            pass
-        customer = request.GET.get('customer')
 
-      
+            # if request.GET.get('track_no')=="":
+            #     track_no=request.GET.get('track_no'),
+            # else:
+            #     track_no=""
+    
+            # if str(rbd)=="":
+            #     dis_doc_no=request.GET.get('dis_doc_no'),
+            # else:
+            #     dis_doc_no=""
+            # if request.GET.get('dis_through')=="":
+            #     dis_through=dis_through= request.GET.get('dis_through'),
+            # else:
+            #     dis_through=""
+            # if request.GET.get('dis_desti')=="":
+            #     dis_desti= request.GET.get('dis_desti'),
+            # else:
+            #     dis_desti=""
+            # if request.GET.get('car_nm_ag')=="":
+            #     car_nm_ag=request.GET.get('car_nm_ag'),
+            # else:
+            #     car_nm_ag=""
+            # if request.GET.get('bil_lading')=="":
+            #     bil_lading=request.GET.get('bil_lading'),
+            # else:
+            #     bil_lading=""
+            # if request.GET.get('mvd_no')=="":
+            #     mvd_no=request.GET.get('mvd_no'),
+            # else:
+            #     mvd_no=""
+            # if request.GET.get('date_dis')=="":
+            #     date_dis=request.GET.get('date_dis'),
+            # else:
+            #     date_dis=date.today()
+            # if request.GET.get('inv_no')=="":
+            #     inv_no= request.GET.get('inv_no'),
+            # else:
+            #     inv_no=""
+            
+            # if request.GET.get('inv_date')=="":
+            #     inv_date=request.GET.get('inv_date'),
+            # else:
+            #     inv_date=date.today()
+        
+            # customer = request.GET.get('customer')
+            # print("dis_doc_no")
+            # print(dis_doc_no)
+
+            pdebit = credit_note(tracking_no=track_no,
+                                        dis_doc_no=dis_doc_no,
+                                        dis_thr=dis_through,
+                                        destination=dis_desti,
+                                        carrie_nmag=car_nm_ag,
+                                        billlr_no=bil_lading,
+                                        mt_vh_no=mvd_no,
+                                        date=date_dis,
+                                        inv_no=inv_no,
+                                        inv_date=inv_date,
+                                        comp=cmp1,
+                                    )
+            pdebit.save()
+        except:
+           
+            pdebit = credit_note(credit_no=crd_num,
+                                        comp=cmp1,
+                                    )
+            pdebit.save()
+        
+
+        global crd_id_crd
+        crd_id_crd=pdebit.screditid
+
+        customer = request.GET.get('customer')
      
         items=tally_ledger.objects.get(company=cmp1,name=customer)
-        print(items)
+      
      
         name = items.name
         mname = items.mname
@@ -11769,6 +11847,36 @@ def savrecdet(request):
         return JsonResponse({"status":" not","name":name,"mname":mname,"address":address,"state":state,"country":country,"reg_type":reg_type,"gst_uin":gst_uin,"bal_amount":bal_amount})
     return redirect('/')
 
+def saveparty(request):
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            uid = request.session['t_id']
+        else:
+            return redirect('/')
+        cmp1 = Companies.objects.get(id=request.session['t_id'])
+
+        try:
+        
+            mname =request.GET.get('mname')
+            address =request.GET.get('address')
+            state =request.GET.get('state')
+            country =request.GET.get('country')
+            reg_type =request.GET.get('reg_type')
+            gst_uin =request.GET.get('gst_uin')
+            pl_suply =request.GET.get('pl_suply')
+           
+            
+        except:
+            pass
+        
+       
+        created = credit_note.objects.filter(screditid=crd_id_crd).update(address=address,  state=state, country=country, reg_type=reg_type, gst_uin=gst_uin, pl_suply=pl_suply, mname=mname,)
+
+       
+
+        return JsonResponse({"status":" not"})
+    return redirect('/')
+
 def create_credit(request):
     
     if 't_id' in request.session:
@@ -11778,23 +11886,23 @@ def create_credit(request):
             return redirect('/')
         cmp1 = Companies.objects.get(id=request.session['t_id'])
         if request.method == 'POST':
-            # debit_no = '1'
-            # print("haii")
-            print(request.POST['customer']) 
+          
             try:
                 notes=request.POST['Note']
             except:
                 notes=''
-            pdebit = credit_note(customer = request.POST['customer'],
-                                    creditdate=date.today(),
-                                    ledger_acc=request.POST['ledger_account'],
-                                    subtotal=request.POST['subtotal'],
-                                    note=notes,
-                                    quantity=request.POST['quantity'],
-                                    grandtotal=request.POST['grandtotal'],
-                                    comp=cmp1
-                                )
-            pdebit.save()
+            
+                
+
+            
+            idss = credit_note.objects.all().last()
+         
+            created = credit_note.objects.filter(screditid=idss.screditid).update(customer = request.POST['customer'],creditdate=date.today(),ledger_acc=request.POST['ledger_account'],subtotal=request.POST['subtotal'],note=notes,quantity=request.POST['quantity'],grandtotal=request.POST['grandtotal'],)
+
+
+            pdebit=credit_note.objects.get(screditid=idss.screditid)
+
+            
             pdebit.credit_no = pdebit.screditid
             pdebit.save()
 
@@ -11803,13 +11911,10 @@ def create_credit(request):
             dr_bal=float(pdebit.grandtotal)-float(ldg1.opening_blnc)
             if ldg1.opening_blnc_type=="Cr":
                 ldg1.opening_blnc=cr_bal
-                print(ldg1.opening_blnc)
-                print(pdebit.grandtotal)
                 
             else:
                 ldg1.opening_blnc=dr_bal
-                print(dr_bal)
-                print(pdebit.grandtotal)
+               
                 if float(pdebit.grandtotal)>float(dr_bal):
                     ldg1.opening_blnc_type="Dr"
                 else:

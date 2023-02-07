@@ -268,51 +268,52 @@
             <div class="modal-body">
                 <div class="card p-3 m-3">
                     
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="">Tracking No(s)</label>
-                            <input type="text" name="track_no" id="track_no">
-                        </div>
-                        
-                        <div class="col-sm-8">
-                            <div class="col-sm-12">
-                                
-                                    <label for="">Dispatch Doc No &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; :&nbsp;</label><input type="text" name="dis_doc_no" id="dis_doc_no"><br>
-                                    <label for="">Dispatched Through&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:&nbsp;</label><input type="text" name="dis_through" id="dis_through"><br>
-                                    <label for="">Destination&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :&nbsp;</label><input type="text" name="dis_desti" id="dis_desti"><br>
-                                    <label for="">Carrier Name/Agent &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="car_nm_ag" id="car_nm_ag"><br>
-                                    <label for="">Bill of Lading/LR-RR No :&nbsp;</label><input type="text" name="bil_lading" id="bil_lading"><br>
-                                    <label for="">Motor Vehicle No. &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="mvd_no" id="mvd_no"><br>
-                                    <label for="">Date&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:</label> <input type="date" name="date_dis" id=""><br> 
-                                     
-
-                                    
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="">Tracking No(s)</label>
+                                <input type="text" name="track_no" id="track_no">
                             </div>
                             
-                         
+                            <div class="col-sm-8">
+                                <div class="col-sm-12">
+                                    
+                                        <label for="">Dispatch Doc No &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; :&nbsp;</label><input type="text" name="dis_doc_no" id="dis_doc_no"><br>
+                                        <label for="">Dispatched Through&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:&nbsp;</label><input type="text" name="dis_through" id="dis_through"><br>
+                                        <label for="">Destination&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :&nbsp;</label><input type="text" name="dis_desti" id="dis_desti"><br>
+                                        <label for="">Carrier Name/Agent &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="car_nm_ag" id="car_nm_ag"><br>
+                                        <label for="">Bill of Lading/LR-RR No :&nbsp;</label><input type="text" name="bil_lading" id="bil_lading"><br>
+                                        <label for="">Motor Vehicle No. &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="mvd_no" id="mvd_no"><br>
+                                        <label for="">Date&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:</label> <input type="date" name="date_dis" id="date_dis"><br> 
+                                         
+    
+                                        
+                                </div>
+                                
+                             
+                            </div>
+                            
+                            
                         </div>
-                        
-                        
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <hr>
-                            <p style="text-decoration: underline; text-align: center;">Original Invoice Details</p>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr>
+                                <p style="text-decoration: underline; text-align: center;">Original Invoice Details</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-sm-6">
-                            <label for="">Invoice No.&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="inv_no" id="inv_no"><br> 
+                        <div class="row mt-4">
+                            <div class="col-sm-6">
+                                <label for="">Invoice No.&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="text" name="inv_no" id="inv_no"><br> 
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="">Date&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="date" name="inv_date" id="inv_date"><br> 
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <label for="">Date&nbsp; &nbsp;&nbsp;&nbsp;:&nbsp;</label><input type="date" name="inv_date" id="inv_date"><br> 
-                        </div>
-                    </div>
                     <div class="row mt-4">
                         <div class="col-sm-12 ">
                             <a href="" data-dismiss="modal" data-target="#view_acc" data-toggle="modal"><input type="submit" value="Next" onclick = recdet() style="margin-left: 41%;"></a>
                         </div>
                     </div>
+                
          
                 </div>
             </div>
@@ -504,7 +505,7 @@
                                 <label for="">GSTIN / UIN :&nbsp;</label><br> <br> 
                          
 
-                        </div>
+                        </div> 
                         <div class="col-sm-6">
                             
                             <a href="" data-dismiss="modal" data-target="#party" data-toggle="modal"><input type="text" name="name" id="name"></a><br> <br> 
@@ -622,7 +623,7 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-sm-12 ">
-                            <a href="" data-dismiss="modal" data-target="#view_acc" data-toggle="modal"><input type="submit" value="Next" style="margin-left: 41%;"></a>
+                            <a href="" data-dismiss="modal" data-target="#view_acc" data-toggle="modal" onclick="partydet()"><input type="submit" value="Next" style="margin-left: 41%;"></a>
                         </div>
                     </div>
                     
@@ -785,6 +786,8 @@
 
         
     }
+
+    
 
     
     
@@ -1405,6 +1408,35 @@
         calc() 
 
     }
+
+    //for save party det   address  state country reg_type gst_uin pl_suply mname
+    function partydet(){
+        mname = $('#mname').val();
+        address = $('#address').val();
+        state = $('#state').val();
+        country = $('#country').val();
+        reg_type = $('#reg_type').val();
+        gst_uin = $('#gst_uin').val();
+        pl_suply = $('#pl_suply').val();
+        crd_num = $('#crd_no').val();
+        
+       
+  
+        $.ajax({
+            type: "GET",
+            url: "{% url 'saveparty' %}",
+            data: {
+                mname : mname,
+                address : address,
+                state : state,
+                country : country,
+                reg_type : reg_type,
+                gst_uin : gst_uin,
+                pl_suply : pl_suply,
+                crd_num:crd_num,
+            },
+    })
+};
     // for save recipt details
 
     function recdet(){
@@ -1420,7 +1452,8 @@
         inv_date = $('#inv_date').val();
         dis_desti = $('#dis_desti').val();
         customer = $('#customer').val();
-       
+        crd_num = $('#crd_no').val();
+        
   
         $.ajax({
             type: "GET",
@@ -1437,6 +1470,7 @@
                 inv_date : inv_date,
                 dis_desti : dis_desti,
                 customer:customer,
+                crd_num:crd_num,
             },
             success:function(response){
                     console.log(response)
