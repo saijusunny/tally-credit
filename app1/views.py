@@ -11691,16 +11691,23 @@ def credit_notess(request):
 
     now = datetime.now()
     dt_nm=now.strftime("%A")
-
-    setup=Voucher.objects.get(company=cmp1)
     
+    try:
+        setups=Voucher.objects.get(company=cmp1)
+
+        setup_no=setups.voucherNumber
+        setup_nar=setups.voucherNarration
+    except:
+        setup_no=" "
+        setup_nar=" "
+   
     
     ldg=tally_ledger.objects.filter(company=cmp1,under__in=["Bank_Accounts" , "Cash_in_Hand" , "Sundry_Debtors" , "Sundry_Creditors" , "Branch_Divisions"])
     
     ldg1=tally_ledger.objects.filter(company=cmp1,under="Sales_Account")
     item = stock_itemcreation.objects.all() 
     godown = CreateGodown.objects.filter(comp=cmp1) 
-    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown,"crd_num":crd_num,"financial_year":financial_year,"dt_nm":dt_nm, "setup":setup,'now':now} 
+    context = {'cmp1': cmp1,'item':item,'ldg':ldg,"ldg1":ldg1,"godown":godown,"crd_num":crd_num,"financial_year":financial_year,"dt_nm":dt_nm, "setup_no":setup_no,"setup_nar":setup_nar,'now':now} 
     return render(request,'credit_note.html',context)
 
 def itemdata(request):

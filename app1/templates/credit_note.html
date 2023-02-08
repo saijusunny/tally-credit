@@ -24,13 +24,16 @@
 
                     <div class="row">   
                         <div class="col-sm-6"> 
-                            {% if setup.voucherNumber == 'Automatic' %}
+                            
+                            {% if setup_no == 'Automatic' %}
                                 <h6><span>Credit Note No. : <input type="text" name="crd_no" value="{{crd_num}}" disabled></span></h6>
-                            {% elif setup.voucherNumber == 'Automatic(Manual Override)' %}
+                            {% elif setup_no == ' ' %}
+                                <h6><span>Credit Note No. : <input type="text" name="crd_no" value="{{crd_num}}" disabled></span></h6>
+                            {% elif setup_no == 'Automatic(Manual Override)' %}
                                 <h6><span>Credit Note No. : <input type="text" name="crd_no" value="{{crd_num}}"></span></h6>
-                            {%elif setup.voucherNumber == 'Multiuser'%}
+                            {%elif setup_no == 'Multiuser'%}
                                 <h6><span>Credit Note No. : <input type="text" name="crd_no" value="{{crd_num}}" disabled></span></h6>
-                            {%elif setup.voucherNumber == 'Manual'%}
+                            {%elif setup_no == 'Manual'%}
                                 <h6><span>Credit Note No. : <input type="text" name="crd_no" value="{{crd_num}}"></span></h6>
                             {%else%}
                                 <h6><span>Credit Note No. : <input type="hidden" name="crd_no" value="{{crd_num}}"></span></h6>
@@ -169,8 +172,10 @@
                             
                         </div>
                         <div class="col-md-6">
-                            {% if setup.voucherNarration == 'Yes' %}
+                            {% if setup_nar == 'Yes' %}
 
+                                <textarea class="form-control"  id="" name="Note" placeholder="Note" style="height: 190px; margin-top: -39%;"></textarea>
+                            {% elif setup_nar == ' ' %}
                                 <textarea class="form-control"  id="" name="Note" placeholder="Note" style="height: 190px; margin-top: -39%;"></textarea>
                             {%else%}
                             

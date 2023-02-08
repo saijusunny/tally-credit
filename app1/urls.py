@@ -802,3 +802,5 @@ urlpatterns = [
     path('saveparty/',views.saveparty,name='saveparty'),
 
      ]
+
+     
