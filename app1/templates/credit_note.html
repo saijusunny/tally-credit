@@ -326,70 +326,7 @@
     </div>
 </div> 
 
-<div class="modal fade" id="party">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="background-color: #1c3143; color: white">
-            <div class="modal-header">
-                <h5 class="m-3">List Of Ledger Account</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card p-3 m-3">
-                    
-                    <a href="{% url 'crt_ledg'%}"><p style="text-align: right;">Create</p></a>
-                    <p style="text-align: right;" onclick=newpartynm()>New Party</p>
-                    <hr>
-                    <ul>
-                        <li ><a href="" data-dismiss="modal" data-target="#view_acc" data-toggle="modal" id="list_prt"></a></li>
-                        {% for p in ldg%}
-                        
-                        <li id={{forloop.counter}}><p  class="name" value="{{p.name}}"  onclick="addledger('{{p.name}}')"id="namess{{forloop.counter}}" name="namess">
-                            {{p.name}}
-                        </p>
-                        {% endfor %}</li>
-                    </ul>
-                    
 
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="item_sl">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="background-color: #1c3143; color: white">
-            <div class="modal-header">
-                <h5 class="m-3">List Of Stock Items</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card p-3 m-3">
-                    
-                    <a href="{% url 'create_items_crd'%}"><p style="text-align: right;">Create</p></a>
-                    
-                    <hr>
-                    <ul>
-                        
-                        {% for p in item%}
-                        
-                        <li id={{forloop.counter}}><a href="" data-dismiss="modal" data-target="#item_sltd" data-toggle="modal"><p  class="name" value="{{p.name}}"  onclick="additem('{{p.name}}')"id="item_nm{{forloop.counter}}" name="item_nm">
-                            {{p.name}}
-                        </p></a></li>
-                        {% endfor %}
-                    </ul>
-                        
-                    
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div class="modal fade" id="item_sltd">
@@ -447,6 +384,71 @@
     </div>
 </div>
 
+<div class="modal fade" id="party">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #1c3143; color: white">
+            <div class="modal-header">
+                <h5 class="m-3">List Of Ledger Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-3 m-3">
+                    
+                    <a href="{% url 'crt_ledg'%}"><p style="text-align: right;">Create</p></a>
+                    <p style="text-align: right;" onclick=newpartynm()>New Party</p>
+                    <hr>
+                    <ul>
+                        <li ><a href="" data-dismiss="modal" data-target="#view_acc" data-toggle="modal" id="list_prt"></a></li>
+                        {% for p in ldg%}
+                        
+                        <li id={{forloop.counter}}><p  class="name" value="{{p.name}}"  onclick="addledger('{{p.name}}')"id="namess{{forloop.counter}}" name="namess">
+                            {{p.name}}
+                        </p>
+                        {% endfor %}</li>
+                    </ul>
+                    
+ 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="item_sl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #1c3143; color: white">
+            <div class="modal-header">
+                <h5 class="m-3">List Of Stock Items</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-3 m-3">
+                    
+                    <a href="{% url 'create_items_crd'%}"><p style="text-align: right;">Create</p></a>
+                    
+                    <hr>
+                    <ul>
+                        
+                        {% for p in item%}
+                        
+                        <li id={{forloop.counter}}><a href="" data-dismiss="modal" data-target="#item_sltd" data-toggle="modal"><p  class="name" value="{{p.name}}"  onclick="additem('{{p.name}}')"id="item_nm{{forloop.counter}}" name="item_nm">
+                            {{p.name}}
+                        </p></a></li>
+                        {% endfor %}
+                    </ul>
+                        
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="gd_sl">
     <div class="modal-dialog modal-lg">
         <div class="modal-content" style="background-color: #1c3143; color: white">
@@ -463,7 +465,8 @@
                     
                     <hr>
                     <ul>
-                        
+                        <li onclick="addgd('Primary')">Primary</li>
+                        <li onclick="addgd('Main Godown')">Main Godown</li>
                         {% for p in godown%}
                         
                         <li id={{forloop.counter}}><a href="" data-dismiss="modal" data-target="#item_sltd" data-toggle="modal"><p  class="name" value="{{p.name}}"  onclick="addgd('{{p.name}}')"id="item_nm{{forloop.counter}}" name="item_nm">
@@ -501,7 +504,7 @@
                             
                             <form method="post" action="">
                                 {% csrf_token %}
-                                <label for="">Bayer(Boll To) :&nbsp;</label><br> <br> 
+                                <label for="">Buyer(Boll To) :&nbsp;</label><br> <br> 
                                 <label for="">Mailing Name :&nbsp;</label><br> <br> 
                                 <label for="">Address :&nbsp;</label><br> <br> <br>
                                 <label for="">State :&nbsp;</label><br> <br> 

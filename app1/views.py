@@ -11693,7 +11693,7 @@ def credit_notess(request):
     dt_nm=now.strftime("%A")
     
     try:
-        setups=Voucher.objects.get(company=cmp1)
+        setups=Voucher.objects.get(company=cmp1, voucher_type="Credit_Note")
 
         setup_no=setups.voucherNumber
         setup_nar=setups.voucherNarration
@@ -11933,10 +11933,12 @@ def create_credit(request):
             
 
             
-
-            ldg=tally_ledger.objects.get(company=cmp1,name=pdebit.ledger_acc)
-            ldg.opening_blnc=float(ldg.opening_blnc)+float(pdebit.grandtotal)
-            ldg.save()
+            try:
+                ldg=tally_ledger.objects.get(company=cmp1,name=pdebit.ledger_acc)
+                ldg.opening_blnc=float(ldg.opening_blnc)+float(pdebit.grandtotal)
+                ldg.save()
+            except:
+                pass 
 
             items = request.POST.getlist("items[]")
             quantity = request.POST.getlist("quantity[]")
@@ -11944,7 +11946,8 @@ def create_credit(request):
             total = request.POST.getlist("total[]")
 
             pdeb=credit_note.objects.get(screditid=pdebit.screditid)
-
+            print("pdeb")
+            print(pdeb)
             if len(items)==len(quantity)==len(price)==len(total) and items and quantity and price and total:
                
                 mapped=zip(items,quantity,price,total)
