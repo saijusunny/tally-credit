@@ -11846,7 +11846,7 @@ def savrecdet(request):
         cr_bal = items.gst_uin
         opn_bal = items.opening_blnc
         blnc_type = items.opening_blnc_type
-        bal_amount=str(opn_bal)+str(blnc_type)
+        bal_amount=str(format(opn_bal).lstrip("-"))+str(blnc_type)
         
         
         
@@ -11946,13 +11946,12 @@ def create_credit(request):
             total = request.POST.getlist("total[]")
 
             pdeb=credit_note.objects.get(screditid=pdebit.screditid)
-            print("pdeb")
-            print(pdeb)
+            
             if len(items)==len(quantity)==len(price)==len(total) and items and quantity and price and total:
                
                 mapped=zip(items,quantity,price,total)
                 mapped=list(mapped)
-                print(mapped)
+                
                 for ele in mapped:
                     porderAdd,created = credit_item.objects.get_or_create(items = ele[0],quantity=ele[1],price=ele[2],total=ele[3],scredit=pdeb)
 
