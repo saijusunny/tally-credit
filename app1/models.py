@@ -692,6 +692,10 @@ class CreateGodown(models.Model):
     name=models.CharField(max_length=100)
     alias=models.CharField(max_length=100)
     under_name=models.CharField(max_length=50)
+    quantity=request.POST['quantity']
+    rate=request.POST['rate']
+    per=request.POST['per']
+    value=request.POST['value']
 
 # class CreateGodown(models.Model):
 #     name=models.CharField(max_length=100)

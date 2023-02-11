@@ -4383,6 +4383,20 @@ def uqc(request):
 #         crt.save()
 #     return render(request,'unit_creation(secondary).html',{'unit':unit})
 
+def godown_alteration(request):
+    gd=CreateGodown.objects.all()
+    if request.method=='POST':
+        name=request.POST['name']
+        alias=request.POST['alias']
+        under_name=request.POST['under_name']
+        quantity=request.POST['quantity']
+        rate=request.POST['rate']
+        per=request.POST['per']
+        value=request.POST['value']
+        gdcrt=CreateGodown(name=name,alias=alias,under_name=under_name,quantity=quantity,rate=rate,per=per,value=value)
+        gdcrt.save()
+    return render(request,'godown_alteration.html',{'gd':gd})
+
 def uqc_secondary(request):
     unit=UnitCrt.objects.all()
     if request.method=='POST':
@@ -4392,15 +4406,7 @@ def uqc_secondary(request):
         return redirect('unit_creation')
     return render(request,'uqc.html')
 
-def godown_alteration(request):
-    gd=CreateGodown.objects.all()
-    if request.method=='POST':
-        name=request.POST['name']
-        alias=request.POST['alias']
-        under_name=request.POST['under_name']
-        gdcrt=CreateGodown(name=name,alias=alias,under_name=under_name)
-        gdcrt.save()
-    return render(request,'godown_alteration.html',{'gd':gd})
+
 
 # def godown_secondary(request):
 #     gd=CreateGodown.objects.all()
@@ -5526,16 +5532,7 @@ def stock_accuracy1(request):
         return render(request,'stock_accuracy1.html',{'gd':gd,'tally':tally})
     return redirect('/')
 
-def stock_accuracy2(request):
-    if 't_id' in request.session:
-        if request.session.has_key('t_id'):
-            t_id = request.session['t_id']
-        else:
-            return redirect('/')
-        tally = Companies.objects.filter(id=t_id)
-        gd=CreateGodown.objects.all()
-        return render(request,'stock_accuracy2.html',{'gd':gd,'tally':tally})
-    return redirect('/')
+
 
 def load_company_price(request):
     if 't_id' in request.session:
@@ -5562,6 +5559,18 @@ def price_levels(request):
             crt.save()
             return redirect('price_levels')
         return render(request,'company_price.html',{'pr':pr,'tally':tally})
+    return redirect('/')
+
+
+def stock_accuracy2(request):
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+        tally = Companies.objects.filter(id=t_id)
+        gd=CreateGodown.objects.all()
+        return render(request,'stock_accuracy2.html',{'gd':gd,'tally':tally})
     return redirect('/')
 
 def load_pan_cin(request):
